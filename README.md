@@ -1,6 +1,6 @@
 # MUD x GODOT
 
-easy way to connect MUD with godot. This project works with Web only.
+Easy way to connect MUD with godot. This project works with Web only.
 
 ## TL;DR
 In this project we are wraping MUD functions in class and connecting them
@@ -13,15 +13,15 @@ to godot using [JavaScriptBridge](https://docs.godotengine.org/en/latest/classes
 
 ## Steps
 
-### To start off let's create your MUD project from a template by running
-the following pnpm command.
+### Creating MUD project
+To start off let's create your MUD project from a template by running
+the following pnpm command. Choose vanilla template when asked. 
 
 ```bash
 pnpm create mud@next my-project
 ```
 
-choose vanilla template when asked. Template MUD project is a simple counter
-example that we will use to demonstrate how we can call functions and recive
+Template MUD project is a simple counter example, that we will use to demonstrate how we can call functions and recive
 informations from MUD in GODOT.
 
 make sure to run following command at least once.
@@ -34,10 +34,11 @@ pnpm run dev
 ### Compile mud project to js library
 
 In our mud project navigate to directory *mud_project_path*/packages/client.
-We have couples of files to change there. Mud template uses vite for compiling
-so we have to tell it to compile down to js module instead of app.
+We have couples of files to change there.
 
-Your vite.config.ts should look like that:
+We need to tell vite to bundle project into a module.
+
+Paste this code into vite.config.ts:
 ```js
 import { defineConfig } from "vite";
 import { resolve } from 'path'
@@ -45,19 +46,13 @@ import { resolve } from 'path'
 export default defineConfig({
     build: {
         lib: {
-          // Could also be a dictionary or array of multiple entry points
           entry: resolve(__dirname, './src/index.ts'),
           name: 'mud',
-          // the proper extensions will be added
           fileName: 'mud-lib',
         },
         rollupOptions: {
-          // make sure to externalize deps that shouldn't be bundled
-          // into your library
           external: ['vue'],
           output: {
-            // Provide global variables to use in the UMD build
-            // for externalized deps
             globals: {
               vue: 'Vue',
             },
@@ -76,14 +71,14 @@ in package.json add entry point for library
 }
 ```
 
-### Make interface that Godot can grasp
+#### Make interface that Godot can grasp
 
 In *mud_project_path*/packages/client/src open index.ts file.
+
 We want to create class that wraps function calls to mud and calls functions
 that we will later connect to godot on MUD updates.
 
 exaple of index.ts
-
 ```typescript
 import { setup } from "./mud/setup";
 import mudConfig from "contracts/mud.config";
@@ -130,11 +125,9 @@ class MudLib{
 (window as any).mud = new MudLib()
 ```
 
-Godot can get an access to anything that is mounted to *window* in js.
-It's easier to make just one class that wraps everything than making tons of
-them for every function.
+Godot can get access to anything that is mounted to *window* interface of a browser.
 
-I didn't put mud setup in constructor becouse this code would be called
+I didn't put MUD setup in constructor, because this code would be called
 before godot project loads and we would not be able to handle events properly
 
 finally we can build our project with:
@@ -143,17 +136,17 @@ pnpm run build
 ```
 
 ### Godot export setup
-Create a godot project
-Click Project -> Export
-add Web export preset
+Create a new godot project.
 
-set export path to *godot-project*/build/index.html
+Click Project -> Export and add Web export preset.
 
-we can now copy compiled js library from
-*mudn_project_path*/packages/client/dist to
+Set export path to *godot-project*/build/index.html
+
+We can now copy compiled module from
+*mud_project_path*/packages/client/dist to
 *godot_project_path*/build/mud-lib
 
-In godots export options add HTML headers
+In Godot export options add HTML headers
 
 ```
 <script crossorigin="anonymous" type="module" src="mud-lib/mud-lib.js"></script>
@@ -164,7 +157,7 @@ In godots export options add HTML headers
 
 ### Creating Godot interface for MUD
 
-create new script in godot called mud.gd and paste this code
+Create new script in godot called mud.gd and paste this code
 
 ```
 extends Node
@@ -195,14 +188,16 @@ navigate to Project -> Project Settings -> Autoload and add newly created script
 
 ### UI
 
-create new User Interface Scene and add 2 child nodes - Button and Label
-Right click on scene in file expoler in godot and set it as main scene
-you can change text of the Label to "Increment"
+Create new User Interface Scene and add 2 child nodes - Button and Label.
+You can change text of the Label to "Increment".
+
+Right click on scene in file expoler in godot and set it as main scene.
+
 your tree should look like this
 
 ![godot tree](/imgs/godot_tree.png)
 
-attach new script to Control and add to it "button_up" signal from Button. Add following code:
+Attach new script to Control and add to it "button_up" signal from Button. Add following code:
 
 ```
 extends Control
@@ -213,11 +208,17 @@ func _on_button_button_up():
 
 ### Serve
 
-Export you project in godot
+Run MUD project from root direcory with this command:
+```
+pnpm run dev
+```
 
-To run our web godot app we will be using python script supplied in Tip
-section of [Godot manual](https://docs.godotengine.org/en/latest/tutorials/export/exporting_for_web.html#serving-the-files)
+Export Godot project.
 
-You might have to turn off CORS protection
+To run our web app you can use python script supplied in Tip
+section of [Godot manual](https://docs.godotengine.org/en/latest/tutorials/export/exporting_for_web.html#serving-the-files).
+Paste it in build directory and run it.
+
+You might have to disable CORS policy.
 
 Done!
