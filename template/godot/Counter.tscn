@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://co2tebo1eo3fc"]
+
+[ext_resource type="Script" path="res://Counter.gd" id="1_tlrcc"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tlrcc")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 117.0
+offset_right = 173.0
+offset_bottom = 188.0
+text = "increment"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 19.0
+offset_right = 189.0
+offset_bottom = 80.0
+text = "label"
+
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
