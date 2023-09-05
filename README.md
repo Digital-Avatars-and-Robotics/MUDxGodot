@@ -191,13 +191,13 @@ navigate to Project -> Project Settings -> Autoload and add newly created script
 ### UI
 
 Create new User Interface Scene and add 2 child nodes - Button and Label.
-You can change text of the Label to "Increment".
-
-Right click on scene in file expoler in godot and set it as main scene.
+You can change text of the Label to "Increment". Place them how you like in 2D editor.
 
 your tree should look like this
 
 ![godot tree](/imgs/godot_tree.png)
+
+Right click on scene in file expoler in godot and set it as main scene.
 
 Attach new script to Control and add to it "button_up" signal from Button. Add following code:
 
@@ -220,6 +220,10 @@ Export Godot project.
 To run our web app you can use python script supplied in Tip
 section of [Godot manual](https://docs.godotengine.org/en/latest/tutorials/export/exporting_for_web.html#serving-the-files).
 Paste it in build directory and run it.
+> **_NOTE_**: If you are using *windows* you might have to add bind parameter to test function in line 35:
+> ```python
+> test(CORSRequestHandler, HTTPServer, port=port, bind="127.0.0.1")
+> ```
 
 You might have to disable CORS policy with some browser plugin.
 
