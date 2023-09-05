@@ -29,6 +29,7 @@ If it succeds you can close it.
 
 ```bash
 cd *my-project*
+pnpm install
 pnpm run dev
 ```
 
@@ -39,7 +40,7 @@ We have couples of files to change there.
 
 We need to tell vite to bundle project into a module.
 
-Paste this code into vite.config.ts:
+Replace content in vite.config.ts with this code:
 ```js
 import { defineConfig } from "vite";
 import { resolve } from 'path'
@@ -131,13 +132,13 @@ Godot can get access to anything that is mounted to *window* interface of a brow
 I didn't put MUD setup in constructor, because this code would be called
 before godot project loads and we would not be able to handle events properly
 
-finally we can build our project with:
+Finally we can build our project. Run this command in *mud_project_path*/packages/client directory:
 ```bash
 pnpm run build
 ```
 
 ### Godot export setup
-Create a new godot project.
+Create a new godot project create *build* folder inside of it.
 
 Click Project -> Export and add Web export preset.
 
