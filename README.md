@@ -18,7 +18,7 @@ To start off let's create your MUD project from a template by running
 the following pnpm command. Choose vanilla template when asked. 
 
 ```bash
-pnpm create mud@next my-project
+pnpm create mud@next *my-project*
 ```
 
 Template MUD project is a simple counter example, that we will use to demonstrate how we can call functions and recive
@@ -27,11 +27,12 @@ informations from MUD in GODOT.
 make sure to run following command at least once.
 If it succeds you can close it.
 
-```
+```bash
+cd *my-project*
 pnpm run dev
 ```
 
-### Compile mud project to js library
+### Compile MUD client package into a module
 
 In our mud project navigate to directory *mud_project_path*/packages/client.
 We have couples of files to change there.
@@ -71,7 +72,7 @@ in package.json add entry point for library
 }
 ```
 
-#### Make interface that Godot can grasp
+#### Make interface that Godot can access
 
 In *mud_project_path*/packages/client/src open index.ts file.
 
@@ -84,7 +85,7 @@ import { setup } from "./mud/setup";
 import mudConfig from "contracts/mud.config";
 import { mount as mountDevTools } from "@latticexyz/dev-tools";
 
-class MudLib{
+class MudWrap{
   increment: any
 
   async setup() {
@@ -122,7 +123,7 @@ class MudLib{
 
 }
 
-(window as any).mud = new MudLib()
+(window as any).mud = new MudWrap()
 ```
 
 Godot can get access to anything that is mounted to *window* interface of a browser.
@@ -140,7 +141,7 @@ Create a new godot project.
 
 Click Project -> Export and add Web export preset.
 
-Set export path to *godot-project*/build/index.html
+Set export path to *godot_project_path*/build/index.html
 
 We can now copy compiled module from
 *mud_project_path*/packages/client/dist to
@@ -148,7 +149,7 @@ We can now copy compiled module from
 
 In Godot export options add HTML headers
 
-```
+```html
 <script crossorigin="anonymous" type="module" src="mud-lib/mud-lib.js"></script>
 <script>
   var process = {env : {NODE_ENV: "DEV" }}
@@ -159,7 +160,7 @@ In Godot export options add HTML headers
 
 Create new script in godot called mud.gd and paste this code
 
-```
+```gdscript
 extends Node
 
 # these objects have to be global
@@ -199,7 +200,7 @@ your tree should look like this
 
 Attach new script to Control and add to it "button_up" signal from Button. Add following code:
 
-```
+```gdscript
 extends Control
 
 func _on_button_button_up():
@@ -209,7 +210,7 @@ func _on_button_button_up():
 ### Serve
 
 Run MUD project from root direcory with this command:
-```
+```bash
 pnpm run dev
 ```
 
@@ -219,6 +220,6 @@ To run our web app you can use python script supplied in Tip
 section of [Godot manual](https://docs.godotengine.org/en/latest/tutorials/export/exporting_for_web.html#serving-the-files).
 Paste it in build directory and run it.
 
-You might have to disable CORS policy.
+You might have to disable CORS policy with some browser plugin.
 
 Done!
