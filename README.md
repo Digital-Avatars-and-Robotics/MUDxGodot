@@ -6,7 +6,7 @@ Easy way to connect MUD with godot. This project works with Web only.
 In this project we are wraping MUD functions in class, compiling MUD client package to mudule and connecting it
 to godot using [JavaScriptBridge](https://docs.godotengine.org/en/latest/classes/class_javascriptbridge.html)
 
-## Prequisites
+## Prerequisites
 
  - [MUD](https://mud.dev/quick-start)
  - [GODOT](https://godotengine.org/) (Using 4.1 for this tutorial but 3.5 works as well with few changes in function names)
