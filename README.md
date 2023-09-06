@@ -35,8 +35,8 @@ pnpm run dev
 
 ### Compile MUD client package into a module
 
-In our MUD project navigate to directory *mud_project_path*/packages/client.
-There is a need to change a few files there.
+In the MUD project navigate to directory *mud_project_path*/packages/client.
+There is a need to change some files there.
 
 First, setup vite to bundle project into a module.
 
