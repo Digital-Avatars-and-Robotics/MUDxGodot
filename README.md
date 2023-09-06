@@ -1,10 +1,10 @@
-# MUD x GODOT
+# MUD x Godot
 
-Easy way to connect MUD with godot. This project works with Web only.
+Easy way to connect MUD autonomous worlds engine with Godot. This project works with Web only.
 
 ## TL;DR
-In this project we are wraping MUD functions in class, compiling MUD client package to mudule and connecting it
-to godot using [JavaScriptBridge](https://docs.godotengine.org/en/latest/classes/class_javascriptbridge.html)
+We are wraping MUD functions in class, compiling MUD client package to mudule and connecting it
+to Godot using [JavaScriptBridge](https://docs.godotengine.org/en/latest/classes/class_javascriptbridge.html)
 
 ## Prerequisites
 
@@ -14,18 +14,18 @@ to godot using [JavaScriptBridge](https://docs.godotengine.org/en/latest/classes
 ## Steps
 
 ### Creating MUD project
-To start off let's create your MUD project from a template by running
+To start, create your MUD project from a template by running
 the following pnpm command. Choose vanilla template when asked. 
 
 ```bash
 pnpm create mud@next *my-project*
 ```
 
-Template MUD project is a simple counter example, that we will use to demonstrate how we can call functions and recive
-informations from MUD in GODOT.
+Template MUD project is a simple counter example that we will use to demonstrate how we can call functions and receive
+information from MUD in Godot.
 
-make sure to run following command at least once.
-If it succeds you can close it.
+Make sure to run following command at least once.
+If it succeeds, you can close it.
 
 ```bash
 cd *my-project*
@@ -35,8 +35,8 @@ pnpm run dev
 
 ### Compile MUD client package into a module
 
-In our mud project navigate to directory *mud_project_path*/packages/client.
-We have couples of files to change there.
+In our MUD project navigate to directory *mud_project_path*/packages/client.
+There is a need to change a few files there.
 
 We need to tell vite to bundle project into a module.
 
@@ -77,8 +77,8 @@ in package.json add entry point for library
 
 In *mud_project_path*/packages/client/src open index.ts file.
 
-We want to create class that wraps function calls to mud and calls functions
-that we will later connect to godot on MUD updates.
+We want to create class that wraps function calls to MUD and calls functions
+that we will later connect to Godot on MUD updates.
 
 exaple of index.ts
 ```typescript
@@ -130,7 +130,7 @@ class MudWrap{
 Godot can get access to anything that is mounted to *window* interface of a browser.
 
 I didn't put MUD setup in constructor, because this code would be called
-before godot project loads and we would not be able to handle events properly
+before Godot project loads and we would not be able to handle events properly.
 
 Finally we can build our project. Run this command in *mud_project_path*/packages/client directory:
 ```bash
@@ -159,7 +159,7 @@ In Godot export options add HTML headers
 
 ### Creating Godot interface for MUD
 
-Create new script in godot called mud.gd and paste this code
+Create new script in Godot called mud.gd and paste this code
 
 ```gdscript
 extends Node
@@ -185,7 +185,7 @@ func counter_updated(update: Array):
 	get_node("/root/Control/Label").text = str(update[0].value[0].value)
 ```
 
-navigate to Project -> Project Settings -> Autoload and add newly created script.
+Navigate to Project -> Project Settings -> Autoload and add newly created script.
 ![godot autoload](/imgs/autoload.png)
 
 ### UI
@@ -197,7 +197,7 @@ your tree should look like this
 
 ![godot tree](/imgs/godot_tree.png)
 
-Right click on scene in file expoler in godot and set it as main scene.
+Right click on scene in file expoler in Godot and set it as main scene.
 
 Attach new script to Control and add to it "button_up" signal from Button. Add following code:
 
