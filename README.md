@@ -80,8 +80,8 @@ In *mud_project_path*/packages/client/src open index.ts file.
 We want to create class that wraps function calls to MUD and calls functions
 that we will later connect to Godot on MUD updates.
 
-exaple of index.ts
-```typescript
+example of index.ts
+```typescript filename=index.ts
 import { setup } from "./mud/setup";
 import mudConfig from "contracts/mud.config";
 import { mount as mountDevTools } from "@latticexyz/dev-tools";
